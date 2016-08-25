@@ -1,20 +1,18 @@
 FROM php:5.6-apache
 MAINTAINER Jonas Thiel <jonas@thiel.io>
 
-ENV ROUNDCUBE_VERSION 1.2.1
-ENV RELEASE_DATE 2016-08-25
-
-ENV ROUNDCUBE_DIR /var/www/html
-ENV ROUNDCUBE_PACKAGE roundcubemail-$ROUNDCUBE_VERSION
-ENV ROUNDCUBE_VARIANT $ROUNDCUBE_PACKAGE-complete
-ENV ROUNDCUBE_DOWNLOAD https://github.com/roundcube/roundcubemail/releases/download/$ROUNDCUBE_VERSION/$ROUNDCUBE_VARIANT.tar.gz
-
-ENV TIMEZONE Europe/Berlin
+ENV ROUNDCUBE_VERSION=1.2.1 \
+    RELEASE_DATE=2016-08-25 \
+    ROUNDCUBE_DIR=/var/www/html \
+    ROUNDCUBE_PACKAGE=roundcubemail-$ROUNDCUBE_VERSION \
+    ROUNDCUBE_VARIANT=$ROUNDCUBE_PACKAGE-complete \
+    ROUNDCUBE_DOWNLOAD=https://github.com/roundcube/roundcubemail/releases/download/$ROUNDCUBE_VERSION/$ROUNDCUBE_VARIANT.tar.gz \
+    TIMEZONE=Europe/Berlin 
 
 RUN a2enmod rewrite expires headers
 
-ENV REQUIRED_PACKAGES mysql-client libicu-dev libldap2-dev
-ENV REQUIRED_PEAR mail_mime mail_mimedecode net_smtp net_idna2-beta auth_sasl net_sieve crypt_gpg
+ENV REQUIRED_PACKAGES="mysql-client libicu-dev libldap2-dev" \
+    REQUIRED_PEAR="mail_mime mail_mimedecode net_smtp net_idna2-beta auth_sasl net_sieve crypt_gpg"
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y -q --no-install-recommends  \
     $REQUIRED_PACKAGES \
